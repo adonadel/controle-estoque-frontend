@@ -2,23 +2,20 @@ import { React, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import InputMask from "react-input-mask";
 import "./style.css";
 
-const LojasCadastro = () => {
+const ProdutosCadastro = () => {
   const { id } = useParams();
-  var titulo = "Cadastro de lojas";
-  var info = "Informe os dados da loja";
+  var titulo = "Cadastro de produtos";
+  var info = "Informe os dados do produto";
 
-  const [nomeLoja, setNomeLoja] = useState("");
-  const [cnpj, setCnpj] = useState("");
-  const [razaoSocial, setRazaoSocial] = useState("");
-  const [gerente, setGerente] = useState("");
-  const [endereco, setEndereco] = useState("");
+  const [nome, setNome] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [codigoEan, setCodigoEan] = useState("");
+  const [dimencoes, setDimencoes] = useState("");
 
   if (id) {
-    // adicionar regras para edição de uma loja
-    titulo = "Edição de lojas";
+    titulo = "Edição de produtos";
     info = "Faça as alterações necessárias e clique em salvar";
   }
 
@@ -34,35 +31,23 @@ const LojasCadastro = () => {
           <div className="box-input">
             <TextField
               id="outlined-basic"
-              label="Nome da loja"
+              label="Nome do Produto"
               fullWidth
-              value={nomeLoja}
+              value={nome}
               onChange={(t) => {
-                setNomeLoja(t.target.value);
+                setNome(t.target.value);
               }}
             />            
           </div>
 
           <div className="box-input">
-            <InputMask
-              mask="99.999.999/9999-99"
-              value={cnpj}
-              onChange={(t) => {
-                setCnpj(t.target.value);
-              }}
-            >
-              {() => <TextField id="outlined-basic" label="CNPJ" fullWidth />}
-            </InputMask>
-          </div>
-
-          <div className="box-input">
             <TextField
               variant="outlined"
-              label="Razão social"
+              label="Descrição"
               fullWidth
-              value={razaoSocial}
+              value={descricao}
               onChange={(t) => {
-                setRazaoSocial(t.target.value);
+                setDescricao(t.target.value);
               }}
             />
           </div>
@@ -70,11 +55,11 @@ const LojasCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Gerente"
+              label="Código EAN"
               fullWidth
-              value={gerente}
+              value={codigoEan}
               onChange={(t) => {
-                setGerente(t.target.value);
+                setCodigoEan(t.target.value);
               }}
             />
           </div>
@@ -82,11 +67,11 @@ const LojasCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Endereço"
+              label="Dimenções"
               fullWidth
-              value={endereco}
+              value={dimencoes}
               onChange={(t) => {
-                setEndereco(t.target.value);
+                setDimencoes(t.target.value);
               }}
             />
           </div>
@@ -105,4 +90,4 @@ const LojasCadastro = () => {
   );
 };
 
-export default LojasCadastro;
+export default ProdutosCadastro;
