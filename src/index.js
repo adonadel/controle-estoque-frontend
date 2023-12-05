@@ -8,6 +8,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Produtos from './pages/produtos/index';
 import ProdutosCadastro from './pages/produtos/cadastro';
+import Estoques from './pages/estoques/index';
+import EstoquesCadastro from './pages/estoques/cadastro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +25,10 @@ root.render(
         <Route path="/produtos" element={<Produtos />}/>
         <Route path="/produtos/cadastrar" element={<ProdutosCadastro />} />
         <Route path="/produtos/editar/:id" element={<ProdutosCadastro />} />
+
+        <Route path="/estoques" element={<Estoques />}/>
+        <Route path="/estoques/cadastrar" element={<EstoquesCadastro />} />
+        <Route path="/estoques/editar/:id" element={<EstoquesCadastro />} />
 
       </Routes>
     </Router>
