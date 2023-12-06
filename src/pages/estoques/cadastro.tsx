@@ -1,21 +1,20 @@
-import { React, useState } from "react";
-import { useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import "./style.css";
 
-const ProdutosCadastro = () => {
+const EstoquesCadastro = () => {
   const { id } = useParams();
-  var titulo = "Cadastro de produtos";
-  var info = "Informe os dados do produto";
+  var titulo = "Cadastro de estoques";
+  var info = "Informe os dados do estoque";
 
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [codigoEan, setCodigoEan] = useState("");
-  const [dimencoes, setDimencoes] = useState("");
+  const [loja, setLoja] = useState("");
+  const [produto, setProduto] = useState("");
+  const [quantidade, setQuantidade] = useState("");
 
   if (id) {
-    titulo = "Edição de produtos";
+    titulo = "Edição de estoques";
     info = "Faça as alterações necessárias e clique em salvar";
   }
 
@@ -31,23 +30,11 @@ const ProdutosCadastro = () => {
           <div className="box-input">
             <TextField
               id="outlined-basic"
-              label="Nome do Produto"
+              label="Loja"
               fullWidth
-              value={nome}
+              value={loja}
               onChange={(t) => {
-                setNome(t.target.value);
-              }}
-            />            
-          </div>
-
-          <div className="box-input">
-            <TextField
-              variant="outlined"
-              label="Descrição"
-              fullWidth
-              value={descricao}
-              onChange={(t) => {
-                setDescricao(t.target.value);
+                setLoja(t.target.value);
               }}
             />
           </div>
@@ -55,11 +42,11 @@ const ProdutosCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Código EAN"
+              label="Produto"
               fullWidth
-              value={codigoEan}
+              value={produto}
               onChange={(t) => {
-                setCodigoEan(t.target.value);
+                setProduto(t.target.value);
               }}
             />
           </div>
@@ -67,14 +54,15 @@ const ProdutosCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Dimenções"
+              label="Quantidade"
               fullWidth
-              value={dimencoes}
+              value={quantidade}
               onChange={(t) => {
-                setDimencoes(t.target.value);
+                setQuantidade(t.target.value);
               }}
             />
           </div>
+
           <div />
 
           <div className="actions-buttons">
@@ -90,4 +78,4 @@ const ProdutosCadastro = () => {
   );
 };
 
-export default ProdutosCadastro;
+export default EstoquesCadastro;

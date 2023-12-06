@@ -1,9 +1,12 @@
-import { React, useState } from "react";
+import { Button, TextField } from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import InputMask from 'react-input-mask';
 import { useParams } from "react-router-dom";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import InputMask from "react-input-mask";
-import "./style.css";
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
 
 const LojasCadastro = () => {
   const { id } = useParams();
@@ -11,7 +14,7 @@ const LojasCadastro = () => {
   var info = "Informe os dados da loja";
 
   const [nomeLoja, setNomeLoja] = useState("");
-  const [cnpj, setCnpj] = useState("");
+  const [cnpj, setCnpj] = useState<string>("");
   const [razaoSocial, setRazaoSocial] = useState("");
   const [gerente, setGerente] = useState("");
   const [endereco, setEndereco] = useState("");
@@ -40,19 +43,19 @@ const LojasCadastro = () => {
               onChange={(t) => {
                 setNomeLoja(t.target.value);
               }}
-            />            
+            />
           </div>
 
           <div className="box-input">
-            <InputMask
-              mask="99.999.999/9999-99"
+            <TextField
+              id="outlined-basic"
+              label="CNPJ"
+              fullWidth
               value={cnpj}
               onChange={(t) => {
                 setCnpj(t.target.value);
               }}
-            >
-              {() => <TextField id="outlined-basic" label="CNPJ" fullWidth />}
-            </InputMask>
+            />
           </div>
 
           <div className="box-input">
