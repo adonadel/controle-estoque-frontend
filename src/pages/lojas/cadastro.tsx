@@ -1,16 +1,31 @@
-import { React, useState } from "react";
+import { Button, TextField } from "@mui/material";
+import React from "react";
+import { ChangeEvent, useState } from "react";
+import { IMaskInput } from "react-imask";
 import { useParams } from "react-router-dom";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import InputMask from "react-input-mask";
-import "./style.css";
-import Accordion from '@mui/material/Accordion'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import AccordionDetails from '@mui/material/AccordionDetails'
-import Typography from '@mui/material/Typography'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="00.000.000/0000-00"
+        definitions={{
+          '#': /[1-9]/,
+        }}
+        inputRef={ref}
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
 
 const LojasCadastro = () => {
   const { id } = useParams();
@@ -18,7 +33,7 @@ const LojasCadastro = () => {
   var info = "Informe os dados da loja";
 
   const [nomeLoja, setNomeLoja] = useState("");
-  const [cnpj, setCnpj] = useState("");
+  const [cnpj, setCnpj] = useState<string>("");
   const [razaoSocial, setRazaoSocial] = useState("");
   const [gerente, setGerente] = useState("");
   const [endereco, setEndereco] = useState("");
@@ -47,19 +62,25 @@ const LojasCadastro = () => {
               onChange={(t) => {
                 setNomeLoja(t.target.value);
               }}
-            />            
+            />
           </div>
 
-          <div className="box-input">
-            <InputMask
-              mask="99.999.999/9999-99"
+          <div className="box-input">            
+            <TextField
+              label="CNPJ"
+              fullWidth
               value={cnpj}
-              onChange={(t) => {
-                setCnpj(t.target.value);
+              onChange={(value) => {
+                setCnpj(value.target.value)
               }}
-            >
-              {() => <TextField id="outlined-basic" label="CNPJ" fullWidth />}
-            </InputMask>
+              name="input-cnpj"
+              id="input-cnpj"
+              InputProps={{
+                inputComponent: TextMaskCustom as any,
+              }}
+              variant="outlined"
+              margin='dense'
+            />
           </div>
 
           <div className="box-input">
