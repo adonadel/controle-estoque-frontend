@@ -1,12 +1,31 @@
 import { Button, TextField } from "@mui/material";
+import React from "react";
 import { ChangeEvent, useState } from "react";
-import InputMask from 'react-input-mask';
+import { IMaskInput } from "react-imask";
 import { useParams } from "react-router-dom";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
 }
+
+const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="00.000.000/0000-00"
+        definitions={{
+          '#': /[1-9]/,
+        }}
+        inputRef={ref}
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
 
 const LojasCadastro = () => {
   const { id } = useParams();
@@ -46,15 +65,21 @@ const LojasCadastro = () => {
             />
           </div>
 
-          <div className="box-input">
+          <div className="box-input">            
             <TextField
-              id="outlined-basic"
               label="CNPJ"
               fullWidth
               value={cnpj}
-              onChange={(t) => {
-                setCnpj(t.target.value);
+              onChange={(value) => {
+                setCnpj(value.target.value)
               }}
+              name="input-cnpj"
+              id="input-cnpj"
+              InputProps={{
+                inputComponent: TextMaskCustom as any,
+              }}
+              variant="outlined"
+              margin='dense'
             />
           </div>
 
