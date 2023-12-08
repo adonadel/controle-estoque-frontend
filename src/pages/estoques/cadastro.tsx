@@ -1,22 +1,104 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import "./style.css";
+import { Autocomplete, Button, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api, { IDataRequest, IDataResponse } from "../../provider/api";
+
 
 const EstoquesCadastro = () => {
   const { id } = useParams();
-  var titulo = "Cadastro de estoques";
-  var info = "Informe os dados do estoque";
 
-  const [loja, setLoja] = useState("");
-  const [produto, setProduto] = useState("");
+  const [titulo, setTitulo] = useState("Cadastro de estoque");
+  const [info, setInfo] = useState("Informe os dados abaixo para cadastrar um novo estoque");
+
   const [quantidade, setQuantidade] = useState("");
+  const [loja, setLoja] = useState("");
+  const [lojas, setLojas] = useState<any[]>([]); // TODO: Verificar se é o tipo correto
+  const [produto, setProduto] = useState("");
+  const [produtos, setProdutos] = useState<any[]>([]); // TODO: Verificar se é o tipo correto
 
-  if (id) {
-    titulo = "Edição de estoques";
-    info = "Faça as alterações necessárias e clique em salvar";
+  const navigate = useNavigate();
+  const enviarEstoque = async () => {
+    const request: IDataRequest = {
+      url: "/estoques/",
+      data: {
+        quantidade,
+        loja,
+        produto,
+      }
+    }
+
+    if (id) {
+      request.url = `/estoques/${id}`;
+
+      const response: IDataResponse = await api.put(request);
+      if (response.statusCode === 200) {
+        alert("Registro atualizado com sucesso!");
+        navigate('/estoques/');
+      }
+
+      return;
+    }
+
+    const response: IDataResponse = await api.post(request);
+    if (response.statusCode === 201) {
+      alert("Registro criado com sucesso!");
+      navigate('/estoques/');
+    }
   }
+
+  const buscarProdutosPorNome = async (nome: string) => {
+    const request: IDataRequest = {
+      url: `/produtos/?nome=${nome}`,
+    }
+
+    const response: IDataResponse = await api.get(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+      setProdutos([]);
+      setProdutos(data);
+    }
+  }
+
+  const buscarLojasPorNome = async (nome: string) => {
+    const request: IDataRequest = {
+      url: `/lojas/?nome=${nome}`,
+    }
+
+    const response: IDataResponse = await api.get(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+      setLojas([]);
+      setLojas(data);
+    }
+  }
+
+  const buscarEstoque = async () => {
+    const request: IDataRequest = {
+      url: `/estoques/${id}`,
+    }
+
+    const response: IDataResponse = await api.get(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+
+      setQuantidade(data.quantidade);
+      setLoja(data.loja);
+      setProduto(data.produto);
+
+
+      setTitulo(`Edição de estoque`);
+      setInfo(`Você só poderá alterar a quantidade do produto`);
+
+    }else{
+      navigate('/estoques/');
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      buscarEstoque();
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -27,48 +109,59 @@ const EstoquesCadastro = () => {
         </div>
 
         <div className="box-inputs">
-          <div className="box-input">
-            <TextField
-              id="outlined-basic"
-              label="Loja"
-              fullWidth
-              value={loja}
-              onChange={(t) => {
-                setLoja(t.target.value);
-              }}
-            />
-          </div>
+          <Autocomplete
+            disablePortal
+            disabled={id ? true : false}
+            id="combo-box-demo"
+            options={produtos}
+            fullWidth
+            value={produto}
+            onChange={(event, newValue) => {
+              setProduto(newValue || null);
+            }}
+            onInputChange={(event, newInputValue) => {
+              buscarProdutosPorNome(newInputValue);
+            }}
+            getOptionLabel={(option) => option ? `${option.id} - ${option.nome}` : ''}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(produtos) => <TextField {...produtos} label="Digite o nome do Produto" />}
+          />
+
+          <Autocomplete
+            disablePortal
+            disabled={id ? true : false}
+            id="combo-box-demo"
+            options={lojas}
+            fullWidth
+            value={loja}
+            onChange={(event, newValue) => {
+              setLoja(newValue || null);
+            }}
+            onInputChange={(event, newInputValue) => {
+              buscarLojasPorNome(newInputValue);
+            }}
+            getOptionLabel={(option) => option ? `${option.id} - ${option.nome}` : ''}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(lojas) => <TextField {...lojas} label="Digite o nome da Loja" />}
+          />
 
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Produto"
-              fullWidth
-              value={produto}
-              onChange={(t) => {
-                setProduto(t.target.value);
-              }}
-            />
-          </div>
-
-          <div className="box-input">
-            <TextField
-              variant="outlined"
-              label="Quantidade"
+              label="Quantidade"              
               fullWidth
               value={quantidade}
               onChange={(t) => {
                 setQuantidade(t.target.value);
               }}
             />
+
           </div>
 
-          <div />
-
           <div className="actions-buttons">
-            <Button color="error">Cancelar</Button>
+            <Button color="error" onClick={() => navigate('/estoques/')}>Cancelar</Button>
 
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={() => { enviarEstoque() }}>
               Salvar
             </Button>
           </div>
