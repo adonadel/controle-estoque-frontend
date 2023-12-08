@@ -1,8 +1,8 @@
 import { Button, TextField } from "@mui/material";
-import React from "react";
-import { ChangeEvent, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IMaskInput } from "react-imask";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import api, { IDataRequest, IDataResponse } from "../../provider/api";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -32,17 +32,68 @@ const LojasCadastro = () => {
   var titulo = "Cadastro de lojas";
   var info = "Informe os dados da loja";
 
-  const [nomeLoja, setNomeLoja] = useState("");
+  const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState<string>("");
   const [razaoSocial, setRazaoSocial] = useState("");
-  const [gerente, setGerente] = useState("");
+  const [responsavel, setResponsavel] = useState("");
   const [endereco, setEndereco] = useState("");
 
-  if (id) {
-    // adicionar regras para edição de uma loja
-    titulo = "Edição de lojas";
-    info = "Faça as alterações necessárias e clique em salvar";
+  const navigate = useNavigate();
+  const enviarLoja = async () => {
+    const request: IDataRequest = {
+      url: "/lojas/",
+      data: {
+        nome,
+        cnpj,
+        razaoSocial,
+        responsavel,
+        endereco
+      }
+    }
+
+    if (id) {
+      titulo = "Edição de lojas";
+      info = "Faça as alterações necessárias e clique em salvar";
+      request.url = `/lojas/${id}`;
+
+      const response: IDataResponse = await api.put(request);
+      if (response.statusCode === 200) {
+        alert("Registro atualizado com sucesso!");
+        navigate('/');
+      }
+
+      return;
+    }
+
+    const response: IDataResponse = await api.post(request);
+    if (response.statusCode === 201) {
+      alert("Registro criado com sucesso!");
+      navigate('/');
+    }
   }
+
+  const buscarLoja = async () => {
+    const request: IDataRequest = {
+      url: `/lojas/${id}`,
+    }
+
+    const response: IDataResponse = await api.get(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+
+      setNome(data.nome);
+      setCnpj(data.cnpj);
+      setRazaoSocial(data.razaoSocial);
+      setResponsavel(data.responsavel);
+      setEndereco(data.endereco);
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      buscarLoja();
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -58,14 +109,14 @@ const LojasCadastro = () => {
               id="outlined-basic"
               label="Nome da loja"
               fullWidth
-              value={nomeLoja}
+              value={nome}
               onChange={(t) => {
-                setNomeLoja(t.target.value);
+                setNome(t.target.value);
               }}
             />
           </div>
 
-          <div className="box-input">            
+          <div className="box-input">
             <TextField
               label="CNPJ"
               fullWidth
@@ -98,11 +149,11 @@ const LojasCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Gerente"
+              label="responsavel"
               fullWidth
-              value={gerente}
+              value={responsavel}
               onChange={(t) => {
-                setGerente(t.target.value);
+                setResponsavel(t.target.value);
               }}
             />
           </div>
@@ -123,7 +174,7 @@ const LojasCadastro = () => {
           <div className="actions-buttons">
             <Button color="error">Cancelar</Button>
 
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={() => { enviarLoja() }}>
               Salvar
             </Button>
           </div>
