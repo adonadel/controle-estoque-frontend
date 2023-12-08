@@ -1,23 +1,80 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import "./style.css";
+import { Button, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api, { IDataRequest, IDataResponse } from "../../provider/api";
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
 
 const ProdutosCadastro = () => {
-  const { id } = useParams();
-  var titulo = "Cadastro de produtos";
-  var info = "Informe os dados do produto";
+  const { id } = useParams();  
+
+  const [titulo, setTitulo] = useState("Cadastro de Produtos");
+  const [info, setInfo] = useState("Informe os dados do produto"); 
 
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [codigoEan, setCodigoEan] = useState("");
-  const [dimencoes, setDimencoes] = useState("");
+  const [dimensoes, setDimensoes] = useState("");
 
-  if (id) {
-    titulo = "Edição de produtos";
-    info = "Faça as alterações necessárias e clique em salvar";
+  const navigate = useNavigate();
+  const enviarProdutos = async () => {
+    const request: IDataRequest = {
+      url: "/produtos/",
+      data: {
+        nome,
+        descricao,
+        codigoEan,
+        dimensoes
+      }
+    }
+
+    if (id) {      
+      request.url = `/produtos/${id}`;
+
+      const response: IDataResponse = await api.put(request);
+      if (response.statusCode === 200) {
+        alert("Registro atualizado com sucesso!");
+        navigate('/');
+      }
+
+      return;
+    }
+
+    const response: IDataResponse = await api.post(request);
+    if (response.statusCode === 201) {
+      alert("Registro criado com sucesso!");
+      navigate('/');
+    }
   }
+
+  const buscarProdutos = async () => {    
+    const request: IDataRequest = {
+      url: `/produtos/${id}`,
+    }
+
+    const response: IDataResponse = await api.get(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+
+      setNome(data.nome);
+      setDescricao(data.descricao);
+      setCodigoEan(data.codigoEan);
+      setDimensoes(data.dimensoes);
+
+      setTitulo(`Edição de Produtos`);
+      setInfo(`Informe os dados do produto ${data.nome} que você deseja alterar`);
+
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      buscarProdutos();
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -39,10 +96,10 @@ const ProdutosCadastro = () => {
               }}
             />
           </div>
-
+ 
           <div className="box-input">
             <TextField
-              variant="outlined"
+              id="outlined-basic"
               label="Descrição"
               fullWidth
               value={descricao}
@@ -55,7 +112,7 @@ const ProdutosCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="Código EAN"
+              label="Código Ean"
               fullWidth
               value={codigoEan}
               onChange={(t) => {
@@ -69,18 +126,18 @@ const ProdutosCadastro = () => {
               variant="outlined"
               label="Dimenções"
               fullWidth
-              value={dimencoes}
+              value={dimensoes}
               onChange={(t) => {
-                setDimencoes(t.target.value);
+                setDimensoes(t.target.value);
               }}
             />
           </div>
           <div />
 
           <div className="actions-buttons">
-            <Button color="error">Cancelar</Button>
+            <Button color="error" onClick={() => navigate('/produtos/')}>Cancelar</Button>
 
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={() => { enviarProdutos() }}>
               Salvar
             </Button>
           </div>
