@@ -7,35 +7,34 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import api, { IDataRequest, IDataResponse } from '../../provider/api';
 import { useNavigate } from 'react-router-dom';
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import BottomNavigation from '@mui/material/BottomNavigation'
+import IconButton from '@mui/material/IconButton'
 
 
 function Index() {
-  
-  const [nome, setNome] = useState("");
-  const [cnpj, setCnpj] = useState<string>("");
-  const [razaoSocial, setRazaoSocial] = useState("");
-  const [responsavel, setResponsavel] = useState("");
-  const [endereco, setEndereco] = useState("");
   const [rows, setRows] = useState<any[]>([]);
-
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: 40 },
     {
       field: 'nome',
       headerName: 'Nome',
-      width: 150,
+      width: 200,
     },
     {
       field: 'cnpj',
       headerName: 'CNPJ',
-      width: 150,
+      width: 200,
     },
     {
       field: 'razaoSocial',
       headerName: 'Razão Social',
-      width: 110,
+      width: 200,
     },
     {
       field: 'responsavel',
@@ -50,30 +49,45 @@ function Index() {
     {
       field: 'actions',
       headerName: 'Ações',
-      width: 250,
+      flex: 1,
       sortable: false,
-      renderCell: () => {
+      align: 'right',
+      renderCell: (params) => {
         return (
-          <div >
-            <Button
-              variant="contained"
-              color="warning"
+          <Box display="flex" alignItems="center">                   
+            <IconButton 
+              aria-label="Editar"              
+              color='warning'
               title='Editar'
-              startIcon={<EditIcon />}
-              onClick={() => navigate(`/lojas/editar/${'row.id'}}`)}
-            >
-            </Button>
-            <Button
-              variant="contained"
+              onClick={() => navigate(`/lojas/editar/${params.row.id}`)}
+              >
+              <EditIcon />
+            </IconButton>
+            <IconButton 
+              aria-label="Exluir"              
               color='error'
               title='Excluir'
-              startIcon={<DeleteIcon />}>
-            </Button>
-          </div>
+              onClick={() => deletarLoja(params.row.id)}
+              >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
         )
       }
     },
   ];
+
+  const deletarLoja = async (id: number) => {
+    const request: IDataRequest = {
+      url: `/lojas/${id}`,
+    }
+
+    const response: IDataResponse = await api.delete(request);
+    if (response.statusCode === 200) {
+      const data = response.data;
+      buscarLoja();
+    }
+  }
 
   const buscarLoja = async () => {
     const request: IDataRequest = {
@@ -90,22 +104,32 @@ function Index() {
   useEffect(() => {
     buscarLoja();
   }, [])
-  
+
   return (
-    <Container maxWidth="xl">
-      <Box sx={{ height: '100vh', width: '100%' }}>
+    <Container>
+      <AppBar position="fixed" color="primary" >
+        <Toolbar>
+          <Typography variant="h6">
+            Lista de Lojas
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+
+
+      <Box sx={{ width: '100%', marginTop: '6rem' }}>
         <DataGrid
+          autoHeight={true}
           rows={rows}
           columns={columns}
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 15,
+                pageSize: 10,
               },
             },
           }}
           pageSizeOptions={[5]}
-
 
         />
       </Box>

@@ -28,9 +28,10 @@ const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
 );
 
 const LojasCadastro = () => {
-  const { id } = useParams();
-  var titulo = "Cadastro de lojas";
-  var info = "Informe os dados da loja";
+  const { id } = useParams();  
+
+  const [titulo, setTitulo] = useState("Cadastro de lojas");
+  const [info, setInfo] = useState("Informe os dados da loja"); 
 
   const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState<string>("");
@@ -51,9 +52,7 @@ const LojasCadastro = () => {
       }
     }
 
-    if (id) {
-      titulo = "Edição de lojas";
-      info = "Faça as alterações necessárias e clique em salvar";
+    if (id) {      
       request.url = `/lojas/${id}`;
 
       const response: IDataResponse = await api.put(request);
@@ -72,7 +71,7 @@ const LojasCadastro = () => {
     }
   }
 
-  const buscarLoja = async () => {
+  const buscarLoja = async () => {    
     const request: IDataRequest = {
       url: `/lojas/${id}`,
     }
@@ -86,6 +85,10 @@ const LojasCadastro = () => {
       setRazaoSocial(data.razaoSocial);
       setResponsavel(data.responsavel);
       setEndereco(data.endereco);
+
+      setTitulo(`Edição de loja`);
+      setInfo(`Informe os dados da loja ${data.nome} que você deseja alterar`);
+
     }
   }
 
@@ -171,8 +174,8 @@ const LojasCadastro = () => {
           </div>
           <div />
 
-          <div className="actions-buttons">
-            <Button color="error">Cancelar</Button>
+          <div className="actions-buttons">''
+            <Button color="error" onClick={() => navigate('/lojas/')}>Cancelar</Button>
 
             <Button variant="contained" color="success" onClick={() => { enviarLoja() }}>
               Salvar
