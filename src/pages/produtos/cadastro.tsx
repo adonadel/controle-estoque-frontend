@@ -7,7 +7,7 @@ import "./style.css";
 const ProdutosCadastro = () => {
   const { id } = useParams();
   var titulo = "Cadastro de produtos";
-  var info = "Informe os dados do produto";
+  var info = "Informe os dados do produto.";
 
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
