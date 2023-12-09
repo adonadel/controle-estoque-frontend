@@ -10,8 +10,10 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Navigation from '../../componentes/navigation';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import IconButton from '@mui/material/IconButton'
+import { Button } from '@mui/material';
 
 
 function Index() {
@@ -24,11 +26,13 @@ function Index() {
       field: 'loja',
       headerName: 'Loja',
       width: 200,
+      valueGetter: (params) => params.row.loja.nome,
     },
     {
       field: 'produto',
       headerName: 'Produto',
       width: 200,
+      valueGetter: (params) => params.row.produto.nome,
     },
     {
       field: 'quantidade',
@@ -106,7 +110,19 @@ function Index() {
 
       <Navigation></Navigation>
 
-      <Box sx={{ width: '100%', marginTop: '4rem' }}>
+      <Box display={"flex"} alignItems={"center"} justifyContent={"flex-end"} sx={{ width: '100%', marginTop: '2rem' }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate('/estoques/cadastrar')}
+          startIcon={<AddCircleIcon />}
+        >
+          Cadastrar Estoque
+        </Button>
+
+      </Box>
+
+      <Box sx={{ width: '100%', marginTop: '1rem' }}>
         <DataGrid
           autoHeight={true}
           rows={rows}

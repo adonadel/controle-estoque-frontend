@@ -11,6 +11,8 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Navigation from '../../componentes/navigation';
+import { Button } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function Index() {
   const [rows, setRows] = useState<any[]>([]);
@@ -111,7 +113,20 @@ function Index() {
 
       <Navigation></Navigation>
 
-      <Box sx={{ width: '100%', marginTop: '6rem' }}>
+      <Box display={"flex"} alignItems={"center"} justifyContent={"flex-end"} sx={{ width: '100%', marginTop: '2rem' }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate('/produtos/cadastrar')}
+          startIcon={<AddCircleIcon />}
+
+        >
+          Cadastrar Produto
+        </Button>
+
+      </Box>
+
+      <Box sx={{ width: '100%', marginTop: '1rem' }}>
         <DataGrid
           autoHeight={true}
           rows={rows}
