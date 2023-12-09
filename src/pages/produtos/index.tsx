@@ -10,6 +10,7 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
+import Navigation from '../../componentes/navigation';
 
 function Index() {
   const [rows, setRows] = useState<any[]>([]);
@@ -97,6 +98,8 @@ function Index() {
   }, [])
 
   return (
+
+    
     <Container>
       <AppBar position="fixed" color="primary" >
         <Toolbar>
@@ -105,6 +108,8 @@ function Index() {
           </Typography>
         </Toolbar>
       </AppBar>
+
+      <Navigation></Navigation>
 
       <Box sx={{ width: '100%', marginTop: '6rem' }}>
         <DataGrid
