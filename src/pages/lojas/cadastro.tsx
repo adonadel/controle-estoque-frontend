@@ -155,7 +155,7 @@ const LojasCadastro = () => {
           <div className="box-input">
             <TextField
               variant="outlined"
-              label="responsavel"
+              label="Responsável"
               fullWidth
               value={responsavel}
               onChange={(t) => {

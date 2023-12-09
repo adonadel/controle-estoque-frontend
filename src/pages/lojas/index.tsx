@@ -11,6 +11,8 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Navigation from '../../componentes/navigation';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Button } from '@mui/material';
 
 
 function Index() {
@@ -52,21 +54,21 @@ function Index() {
       align: 'right',
       renderCell: (params) => {
         return (
-          <Box display="flex" alignItems="center">                   
-            <IconButton 
-              aria-label="Editar"              
+          <Box display="flex" alignItems="center">
+            <IconButton
+              aria-label="Editar"
               color='warning'
               title='Editar'
               onClick={() => navigate(`/lojas/editar/${params.row.id}`)}
-              >
+            >
               <EditIcon />
             </IconButton>
-            <IconButton 
-              aria-label="Exluir"              
+            <IconButton
+              aria-label="Exluir"
               color='error'
               title='Excluir'
               onClick={() => deletarLoja(params.row.id)}
-              >
+            >
               <DeleteIcon />
             </IconButton>
           </Box>
@@ -115,7 +117,21 @@ function Index() {
 
       <Navigation></Navigation>
 
-      <Box sx={{ width: '100%', marginTop: '4rem' }}>
+
+      <Box display={"flex"} alignItems={"center"} justifyContent={"flex-end"} sx={{ width: '100%', marginTop: '2rem' }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={() => navigate('/lojas/cadastrar')}
+          startIcon={<AddCircleIcon />}
+
+        >
+          Cadastrar Loja
+        </Button>
+
+      </Box>
+
+      <Box sx={{ width: '100%', marginTop: '1rem' }}>
         <DataGrid
           autoHeight={true}
           rows={rows}
