@@ -2,6 +2,7 @@ import { Autocomplete, Button, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api, { IDataRequest, IDataResponse } from "../../provider/api";
+import "./style.css";
 
 
 const EstoquesCadastro = () => {

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { IMaskInput } from "react-imask";
 import { useNavigate, useParams } from "react-router-dom";
 import api, { IDataRequest, IDataResponse } from "../../provider/api";
+import "./style.css";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
