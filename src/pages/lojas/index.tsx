@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import api, { IDataRequest, IDataResponse } from '../../provider/api';
@@ -10,9 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import BottomNavigation from '@mui/material/BottomNavigation'
 import IconButton from '@mui/material/IconButton'
+import Navigation from '../../componentes/navigation';
 
 
 function Index() {
@@ -115,9 +113,9 @@ function Index() {
         </Toolbar>
       </AppBar>
 
+      <Navigation></Navigation>
 
-
-      <Box sx={{ width: '100%', marginTop: '6rem' }}>
+      <Box sx={{ width: '100%', marginTop: '4rem' }}>
         <DataGrid
           autoHeight={true}
           rows={rows}

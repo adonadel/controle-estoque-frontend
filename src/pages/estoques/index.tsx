@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Navigation from '../../componentes/navigation';
 
 import IconButton from '@mui/material/IconButton'
 
@@ -103,9 +104,9 @@ function Index() {
         </Toolbar>
       </AppBar>
 
+      <Navigation></Navigation>
 
-
-      <Box sx={{ width: '100%', marginTop: '6rem' }}>
+      <Box sx={{ width: '100%', marginTop: '4rem' }}>
         <DataGrid
           autoHeight={true}
           rows={rows}

@@ -90,6 +90,8 @@ const LojasCadastro = () => {
       setTitulo(`Edição de loja`);
       setInfo(`Informe os dados da loja ${data.nome} que você deseja alterar`);
 
+    }else{
+      navigate("/lojas")
     }
   }
 
@@ -175,7 +177,7 @@ const LojasCadastro = () => {
           </div>
           <div />
 
-          <div className="actions-buttons">''
+          <div className="actions-buttons">
             <Button color="error" onClick={() => navigate('/lojas/')}>Cancelar</Button>
 
             <Button variant="contained" color="success" onClick={() => { enviarLoja() }}>

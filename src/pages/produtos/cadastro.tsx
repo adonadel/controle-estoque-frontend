@@ -67,6 +67,8 @@ const ProdutosCadastro = () => {
       setTitulo(`Edição de Produtos`);
       setInfo(`Informe os dados do produto ${data.nome} que você deseja alterar`);
 
+    }else{
+      navigate('/produtos')
     }
   }
 

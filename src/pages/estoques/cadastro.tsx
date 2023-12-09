@@ -13,9 +13,9 @@ const EstoquesCadastro = () => {
 
   const [quantidade, setQuantidade] = useState("");
   const [loja, setLoja] = useState("");
-  const [lojas, setLojas] = useState<any[]>([]); // TODO: Verificar se é o tipo correto
+  const [lojas, setLojas] = useState<any[]>([]);
   const [produto, setProduto] = useState("");
-  const [produtos, setProdutos] = useState<any[]>([]); // TODO: Verificar se é o tipo correto
+  const [produtos, setProdutos] = useState<any[]>([]);
 
   const navigate = useNavigate();
   const enviarEstoque = async () => {
