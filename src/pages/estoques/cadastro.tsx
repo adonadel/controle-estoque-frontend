@@ -86,7 +86,6 @@ const EstoquesCadastro = () => {
       setLoja(data.loja);
       setProduto(data.produto);
 
-
       setTitulo(`Edição de estoque`);
       setInfo(`Você só poderá alterar a quantidade do produto`);
 

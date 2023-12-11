@@ -10,6 +10,9 @@ import LojasCadastro from './pages/lojas/cadastro';
 import Produtos from './pages/produtos';
 import ProdutosCadastro from './pages/produtos/cadastro';
 import reportWebVitals from './reportWebVitals';
+import MovimentacoesCadastro from './pages/movimentacoes/cadastro';
+import Movimentacoes from './pages/movimentacoes';
+import Movimentacao from './pages/estoques/movimentacao';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,22 @@ const router = createBrowserRouter([
   {
     path: "/estoques/editar/:id",
     element: <EstoquesCadastro />
+  },
+  {
+    path: "/estoques/:id/entrada",
+    element: <Movimentacao />
+  },
+  {
+    path: "/estoques/:id/saida",
+    element: <Movimentacao />
+  },    
+  { 
+    path: "/estoques/movimentacoes",
+  element: <Movimentacoes />
+  },
+  {
+    path: "/estoques/:id/movimentacoes",
+    element: <MovimentacoesCadastro />
   },
 ])
 const root = ReactDOM.createRoot(
