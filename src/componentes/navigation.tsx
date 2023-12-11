@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import WidgetsIcon from '@mui/icons-material/Widgets';
-
+import ManageSearch from "@mui/icons-material/ManageSearch";
 
 function Navigation(){
     const navigate = useNavigate();
@@ -43,6 +43,18 @@ function Navigation(){
             startIcon={<WarehouseIcon />}
           >
             Acessar Estoque
+          </Button>
+        </Box>
+
+        <Box padding={2} bgcolor="primary.main" boxShadow={3} borderRadius={2} flex={4} alignContent={'center'} alignItems={'center'}>
+          <Button
+            onClick={() => navigate('/estoques/movimentacoes')}
+            variant="outlined"
+            fullWidth
+            sx={{ color: 'white' }}
+            startIcon={<ManageSearch />}
+          >
+            Movimentações
           </Button>
         </Box>
       </Box>

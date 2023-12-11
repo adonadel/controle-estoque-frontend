@@ -14,7 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import IconButton from '@mui/material/IconButton'
 import { Button } from '@mui/material';
-
+import { ManageSearch, RemoveCircle } from '@mui/icons-material';
 
 function Index() {
   const [rows, setRows] = useState<any[]>([]);
@@ -40,14 +40,14 @@ function Index() {
       width: 200,
     },    
     {
-      field: 'actions',
-      headerName: 'Ações',
+      field: 'edit',
+      headerName: 'Editar',
       flex: 1,
       sortable: false,
       align: 'right',
       renderCell: (params) => {
         return (
-          <Box display="flex" alignItems="center">                   
+          <Box display="flex" alignItems="center">                
             <IconButton 
               aria-label="Editar"              
               color='warning'
@@ -56,6 +56,19 @@ function Index() {
               >
               <EditIcon />
             </IconButton>
+          </Box>
+        )
+      }
+    },
+    {
+      field: 'delete',
+      headerName: 'Excluir',
+      flex: 1,
+      sortable: false,
+      align: 'right',
+      renderCell: (params) => {
+        return (
+          <Box display="flex" alignItems="center">                
             <IconButton 
               aria-label="Exluir"              
               color='error'
@@ -64,6 +77,43 @@ function Index() {
               >
               <DeleteIcon />
             </IconButton>
+          </Box>
+        )
+      }
+    },
+    {
+      field: 'mov',
+      headerName: 'Movimentações',
+      flex: 1,
+      sortable: false,
+      align: 'center',
+      renderCell: (params) => {
+        return (
+          <Box display="flex" alignItems="center"> 
+            <IconButton 
+              aria-label="Entrada"              
+              color='success'
+              title='Entrada'
+              onClick={() => navigate(`/estoques/${params.row.id}/entrada`)}
+              >
+              <AddCircleIcon />
+            </IconButton>    
+            <IconButton 
+              aria-label="Saída"              
+              color='error'
+              title='Saída'
+              onClick={() => navigate(`/estoques/${params.row.id}/saida`)}
+              >
+              <RemoveCircle/>
+            </IconButton>    
+            <IconButton 
+              aria-label="Consulta Movimentações"              
+              color='default'
+              title='Consulta Movimentações'
+              onClick={() => navigate(`/estoques/${params.row.id}/movimentacoes`)}
+              >
+              <ManageSearch />
+            </IconButton>             
           </Box>
         )
       }
@@ -139,6 +189,7 @@ function Index() {
         />
       </Box>
     </Container>
+
   );
 }
 
