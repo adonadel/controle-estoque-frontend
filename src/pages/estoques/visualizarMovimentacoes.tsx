@@ -2,27 +2,25 @@ import React, { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import api, { IDataRequest, IDataResponse } from '../../provider/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Navigation from '../../componentes/navigation';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-function Index() {
+import IconButton from '@mui/material/IconButton'
+import { Button } from '@mui/material';
+import { ManageSearch, RemoveCircle } from '@mui/icons-material';
+
+function VisualizarMovimentacoes() {
+  const { id } = useParams();
   const [rows, setRows] = useState<any[]>([]);
   const navigate = useNavigate();
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 40 },
-    {
-      field: 'estoque',
-      headerName: 'Estoque',
-      width: 200,
-      valueGetter: (params) => params.row.estoque.id,
-    },
     {
       field: 'loja',
       headerName: 'Loja',
@@ -34,22 +32,22 @@ function Index() {
       headerName: 'Produto',
       width: 200,
       valueGetter: (params) => params.row.estoque.produto.nome,
-    },    
-    {
-        field: 'quantidade',
-        headerName: 'Quantidade',
-        width: 200,
     },
     {
-      field: 'tipoMovimentacaoEstoque',
-      headerName: 'Tipo Movimentação',
+      field: 'quantidade',
+      headerName: 'Quantidade',
+      width: 200,
+    },
+    {
+      field: 'tipo',
+      headerName: 'Tipo',
       width: 200,
     }
   ];
 
   const buscarMovimentacoes = async () => {
     const request: IDataRequest = {
-      url: `/estoques/movimentacoes`,
+      url: `/estoques/${id}/movimentacoes`,
     }
 
     const response: IDataResponse = await api.get(request);
@@ -64,12 +62,11 @@ function Index() {
   }, [])
 
   return (
-   
     <Container>
       <AppBar position="fixed" color="primary" >
         <Toolbar>
           <Typography variant="h6">
-            Lista de Movimentações
+            Lista de estoque
           </Typography>
         </Toolbar>
       </AppBar>
@@ -93,7 +90,8 @@ function Index() {
         />
       </Box>
     </Container>
+
   );
 }
 
-export default Index;
+export default VisualizarMovimentacoes;

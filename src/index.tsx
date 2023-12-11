@@ -13,6 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import MovimentacoesCadastro from './pages/movimentacoes/cadastro';
 import Movimentacoes from './pages/movimentacoes';
 import Movimentacao from './pages/estoques/movimentacao';
+import VisualizarMovimentacoes from './pages/estoques/visualizarMovimentacoes';
 
 const router = createBrowserRouter([
   {
@@ -65,11 +66,11 @@ const router = createBrowserRouter([
   },    
   { 
     path: "/estoques/movimentacoes",
-  element: <Movimentacoes />
+    element: <Movimentacoes />
   },
   {
     path: "/estoques/:id/movimentacoes",
-    element: <MovimentacoesCadastro />
+    element: <VisualizarMovimentacoes />
   },
 ])
 const root = ReactDOM.createRoot(
